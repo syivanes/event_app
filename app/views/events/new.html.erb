@@ -1,0 +1,11 @@
+<%= form_for @event, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
+  <%= f.text_field :name %><br />
+  <%= f.datetime_select :date %><br />
+  <%= f.text_area :description, size: "60x12" %><br />
+  <%= f.text_field :venue, data: {autocomplete_source: VenueSuggestion.order(:term).map(&:term)} %>
+  <%= f.fields_for :event_artists do |fea| %>
+    <%= fea.select(:artist_id, options_from_collection_for_select(Artist.all, "id", "name")) %>
+  <% end %>
+  <br />
+  <%= f.submit "Create" %><br />
+<% end %>

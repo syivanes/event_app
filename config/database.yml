@@ -1,0 +1,11 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: event_app
+  pool: 5
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: event_app_test
+  pool: 5

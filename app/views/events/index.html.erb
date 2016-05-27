@@ -1,0 +1,13 @@
+<% @events.each do |event| %> <tr>
+    <td><%= link_to event.name, event_path(event) %></td>
+    <td><%= "on" %></td>
+    <td><%= event.date %></td>
+    <td>
+      <ul>
+				<% event.artists.each do |artist| %></td>
+					<li><%= artist.name %></li>
+				<% end %>
+      </ul>
+    </td>
+  </tr>
+<% end %>
