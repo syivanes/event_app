@@ -3,11 +3,11 @@
   <%= f.datetime_select :date %><br />
   <%= f.text_area :description, size: "60x12" %><br />
   <%= f.select(
-    "venue",
+    :venue_id,
     options_from_collection_for_select(Venue.all, "id", "name")
   ) -%>
   <%= f.fields_for :event_artists do |fea| %>
-    <%= fea.select(:artist_id, options_from_collection_for_select(Artist.all, "id", "name")) %>
+    <%= fea.collection_select :artist_id, Artist.all, "id", "name", {include_blank: true}, {multiple: true} %>
   <% end %>
   <br />
   <%= f.submit "Create" %><br />

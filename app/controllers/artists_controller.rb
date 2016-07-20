@@ -10,7 +10,6 @@ class ArtistsController < ApplicationController
 
   # GET /artists/1
   def show
-    render json: @artist
   end
 
   # POST /artists
@@ -22,6 +21,10 @@ class ArtistsController < ApplicationController
     else
       render json: @artist.errors, status: :unprocessable_entity
     end
+  end
+
+  def new
+    @artist = Artist.new
   end
 
   # PATCH/PUT /artists/1
@@ -46,6 +49,6 @@ class ArtistsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def artist_params
-      params.require(:artist).permit(:id, :name, :bio)
+      params.require(:artist).permit(:id, :name, :bio, :artist_pic)
     end
 end
