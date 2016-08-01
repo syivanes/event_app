@@ -3,5 +3,8 @@
     <p><td><%= @artist.name %></p>
     <p><td><%= image_tag @artist.artist_pic %></td></p>
     <p><td><%= @artist.bio %></p>
+    <p><td><% @artist.events.each do |event| %>
+      <li><%= event.name %></li>
+    <% end %>
   </div>
 </div>

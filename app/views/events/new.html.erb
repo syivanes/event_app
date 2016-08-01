@@ -5,10 +5,8 @@
   <%= f.select(
     :venue_id,
     options_from_collection_for_select(Venue.all, "id", "name")
-  ) -%>
-  <%= f.fields_for :event_artists do |fea| %>
-    <%= fea.collection_select :artist_id, Artist.all, "id", "name", {include_blank: true}, {multiple: true} %>
-  <% end %>
+  ) %>
+  <%= f.collection_select :artist_ids, Artist.all, "id", "name", {include_blank: true}, {multiple: true} %>
   <br />
   <%= f.submit "Create" %><br />
 <% end %>
