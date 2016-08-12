@@ -6,7 +6,17 @@
     :venue_id,
     options_from_collection_for_select(Venue.all, "id", "name")
   ) %>
-  <%= f.collection_select :artist_ids, Artist.all, "id", "name", {include_blank: true}, {multiple: true} %>
+  <%= f.collection_select :artist_ids, Artist.all, :id, :name, {:selected => @event.artist_ids, include_blank: true}, {multiple: true} %>
   <br />
   <%= f.submit "Create" %><br />
+
+	<% content_for :js do %>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#event_artist_ids').select2();
+	});
+	</script>
+	<% end %>
 <% end %>
+
+
