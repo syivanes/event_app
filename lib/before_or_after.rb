@@ -4,13 +4,12 @@ module BeforeOrAfter
 
   require "date"
   def initialize
-    @datetime = DateTime.new
     @future = []
     @past = []
   end
 
   def before_or_after(event)
-    if event < DateTime.now
+    if event.date < DateTime.now
       @past << event.id
     else
       @future << event.id

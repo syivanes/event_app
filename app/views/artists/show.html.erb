@@ -1,10 +1,23 @@
+<main>
 <div class="container">
-  <div class="jumbotron">
-    <p><td><%= @artist.name %></p>
-    <p><td><%= image_tag @artist.artist_pic %></td></p>
-    <p><td><%= @artist.bio %></p>
+  <div class="row">
+    <div class="col-md-7">
+			<div class="view overlay hm-white-light z-depth-1-half">
+					<%= image_tag @artist.artist_pic, class:"img-fluid" %>
+					<div class="mask">
+					</div>
+			  </div>
+			  <br>
+		</div>
+    <div class="col-md-5">
+    <%= @artist.name %>
+    <p><%= @artist.bio %></p>
+    </div>
+    <div class="col-md-8"
     <p><td><% @artist.events.each do |event| %>
       <li><%= event.name %></li>
     <% end %>
+    </div>
   </div>
 </div>
+</main>
