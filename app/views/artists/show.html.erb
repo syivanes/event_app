@@ -1,10 +1,16 @@
 <div class="container">
   <div class="jumbotron">
-    <p><td><%= @artist.name %></p>
-    <p><td><%= image_tag @artist.artist_pic %></td></p>
-    <p><td><%= @artist.bio %></p>
-    <p><td><% @artist.events.each do |event| %>
-      <li><%= event.name %></li>
+    <div><%= @artist.name %></div>
+    <div><%= image_tag @artist.artist_pic %></div>
+    <div><%= @artist.bio %></div>
+    <div><%= "Upcoming Events:" %></div>
+    <div><% @artist.future_events.each do |event| %></div>
+      <li><%= link_to event.title, event_path(event) %></li>
     <% end %>
+    <div><%= "Past Events:" %></div>
+    <div><% @artist.past_events.each do |event| %></div>
+      <li><%= link_to event.title, event_path(event) %></li>
+    <% end %>
+
   </div>
 </div>

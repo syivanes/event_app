@@ -2,9 +2,10 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>= 5.0.0.beta3', '< 5.1'
+gem 'rails', '> 5.0.0.beta3', '< 5.1'
 
 gem 'pg'
+gem 'bcrypt'
 # Use Puma as the app server
 gem 'puma'
 # Use SCSS for stylesheets
@@ -24,6 +25,7 @@ gem 'jquery-ui-rails'
 gem 'turbolinks', '~> 5.x'
 gem 'carrierwave'
 gem 'select2-rails'
+gem 'geocoder'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # Use Redis adapter to run Action Cable in production
@@ -37,6 +39,7 @@ gem 'jbuilder', '~> 2.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'rspec-rails', '~> 3.5'
 end
 
 group :development do

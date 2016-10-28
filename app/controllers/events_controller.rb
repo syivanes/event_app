@@ -10,6 +10,8 @@ class EventsController < ApplicationController
 
   # GET /events/1
   def show
+    @event = Event.find(params[:id])
+    @rsvp = @event.rsvps.find_or_initialize_by user: current_user if current_user
   end
 
   # POST /events

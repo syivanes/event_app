@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160715015255) do
+ActiveRecord::Schema.define(version: 20160930000608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,10 +26,9 @@ ActiveRecord::Schema.define(version: 20160715015255) do
   create_table "event_artists", force: :cascade do |t|
     t.integer "event_id"
     t.integer "artist_id"
+    t.index ["artist_id"], name: "index_event_artists_on_artist_id", using: :btree
+    t.index ["event_id"], name: "index_event_artists_on_event_id", using: :btree
   end
-
-  add_index "event_artists", ["artist_id"], name: "index_event_artists_on_artist_id", using: :btree
-  add_index "event_artists", ["event_id"], name: "index_event_artists_on_event_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "name"
@@ -39,9 +37,27 @@ ActiveRecord::Schema.define(version: 20160715015255) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "venue_id"
+    t.index ["venue_id"], name: "index_events_on_venue_id", using: :btree
   end
 
-  add_index "events", ["venue_id"], name: "index_events_on_venue_id", using: :btree
+  create_table "rsvps", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "event_id"
+    t.integer "status"
+    t.index ["event_id"], name: "index_rsvps_on_event_id", using: :btree
+    t.index ["user_id"], name: "index_rsvps_on_user_id", using: :btree
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email"
+    t.string   "password_hash"
+    t.string   "password_salt"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "username"
+  end
 
   create_table "venue_suggestions", force: :cascade do |t|
     t.string   "term"
@@ -56,6 +72,8 @@ ActiveRecord::Schema.define(version: 20160715015255) do
     t.integer  "zip_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_foreign_key "events", "venues"

@@ -1,0 +1,14 @@
+$(document).on('ready', function() {
+	$('.rsvp').on('click', function(e) {
+		e.preventDefault()
+
+		var user_id = $(.rsvp).data('user-id')
+		var rsvp_id = $(.rsvp_id).data('rsvp-id')
+
+		$.ajax({
+			type: 'POST',
+			url: "users/" + user_id + "/rsvps/" + rsvp_id
+		}).done(function(response){ console.log('hello?', response)
+		})
+	})
+})

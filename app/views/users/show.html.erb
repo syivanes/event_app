@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="jumbotron">
+    <div><%= @user.username %></div>
+    <div><%= "Upcoming Events: " %></div>
+    <div><% @user.past_events.each do |event| %></div>
+        <% rsvp_status = @user.rsvp_for_event(event).status %>
+        <% unless rsvp_status == "not_interested" %>
+      <li><%= link_to event.title, event_path(event) %>
+      <%= rsvp_status %>
+      </li>
+      <% end %>
+    <% end %>
+  </div>
+</div>
