@@ -12,13 +12,7 @@
     </td>
     <td>
       <% if @rsvp %>
-        <%= form_for ([current_user, @rsvp]), html: { class: ["new", "update"] } do |f| %>
-					<%= f.hidden_field :event_id %>
-          <%= f.radio_button :status, "attending" %>
-					<%= f.radio_button :status, "interested" %>
-          <%= f.radio_button :status, "not_interested" %>
-          <%= f.submit %>
-        <% end %>
+        <%= render partial: "shared/rsvps", locals: { rsvp: @rsvp }, html: { class: ["new", "update"] } %>
       <% end %>
     </td>
   </div>

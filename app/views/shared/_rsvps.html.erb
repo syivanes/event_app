@@ -1,0 +1,6 @@
+<%= form_for [current_user, rsvp], remote: true do |f| %>
+	<%= f.hidden_field :event_id %>
+	<%= f.radio_button :status, "attending", :onclick => "this.form.submit();" %>
+	<%= f.radio_button :status, "interested", :onclick => "this.form.submit();"%>
+	<%= f.radio_button :status, "not_interested", :onclick => "this.form.submit();" %>
+<% end %>

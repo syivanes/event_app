@@ -32,3 +32,4 @@ private
     params.require(:rsvp).permit(:id, :event_id, :user_id, :status)
   end
 end
+

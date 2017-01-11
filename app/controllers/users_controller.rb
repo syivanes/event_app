@@ -6,9 +6,11 @@ before_action :set_user, only: [:show, :update, :destroy]
   end
 
   def create
-    @user = User.new(user_params)
+    @user = user_params ? @user = User.new(user_params) : User.new_guest
     if @user.save
-      redirect_to root_url, :notice => "Signed up!"
+      current_user.move_to(@user) if current_user && current_user.guest?
+      session[:user_id] = @user.id
+      redirect_to events_path, :notice => "Signed up!"
     else
       render "new"
     end
@@ -27,7 +29,9 @@ before_action :set_user, only: [:show, :update, :destroy]
   end
 
   def user_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation, :password_salt, :password_hash)
+    unless User.new_guest
+      params.require(:user).permit(:username, :email, :password, :password_confirmation, :password_salt, :password_hash)
+    end
   end
 
 

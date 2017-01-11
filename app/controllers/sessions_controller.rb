@@ -6,10 +6,10 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate(params[:email], params[:password])
+    user = User.authenticate(params[:username_or_email], params[:password])
     if user
       session[:user_id] = user.id
-      redirect_to root_url, :notice => "Logged in!"
+      redirect_to profile_path, :notice => "Logged in!"
     else
       flash.now.alert = "Invalid email or password"
       render "new"
@@ -17,11 +17,13 @@ class SessionsController < ApplicationController
   end
 
   def show
+		@request = Rack::Request.new({'REMOTE_ADDR' => '107.128.188.218'})
+		@location = @request.location
   end
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_url, :notice => "Logged out!"
+    redirect_to events_path, :notice => "Logged out!"
   end
 
   def require_login

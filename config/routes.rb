@@ -3,8 +3,7 @@ Rails.application.routes.draw do
   get 'log_in' => 'sessions#new', :as => 'log_in'
 
   get 'sign_up' => 'users#new', :as => 'sign_up'
-  root :to => 'users#new'
-
+  root :to => 'sessions#new'
   get 'profile', to: 'sessions#show', :as => 'profile'
 
   resources :users do

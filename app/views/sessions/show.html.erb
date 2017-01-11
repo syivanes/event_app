@@ -1,38 +1,21 @@
 <div class="container">
   <div class="jumbotron">
     <div><%= current_user.username %></div>
-      <% current_user.past_events.each do |event| %>
-      <div class="rsvp" data-user-id="<%=current_user.id %>">
-				<% rsvp_status = current_user.rsvp_for_event(event).status %>
-					<% unless rsvp_status == "not_interested" %>
-        <div class"rsvp_id" data-rsvp-id="<%current_user.rsvp_for_event(event).id %>">
-				<li><%= link_to event.title, event_path(event) %>
-					<%= form_for ([current_user, current_user.rsvp_for_event(event)]), remote: true, html: { class: "update" } do |f| %>
-						<%= f.hidden_field :event_id %>
-						<%= f.radio_button :status, "attending", :onclick => "this.form.submit();" %>
-						<%= f.radio_button :status, "interested", :onclick => "this.form.submit();"%>
-						<%= f.radio_button :status, "not_interested", :onclick => "this.form.submit();" %>
-					<% end %>
-				<% end %>
-				<% end %>
-				</li>
-    </div>
+      <% Venue.near([@location.latitude, @location.longitude], 15).each do |venue| %>
+        <%= venue.name %>
+      <% end %>
+      <% current_user.future_events.each do |event| %>
+				<div class="rsvp_form" data-user-id="<%=current_user.id %>">
+					<% rsvp_status = current_user.rsvp_for_event(event).status %>
+						<% unless rsvp_status == "not_interested" %>
+					<div class"rsvp_button" data-rsvp-id="<%current_user.rsvp_for_event(event).id %>">
+						<li><%= link_to event.title, event_path(event) %>
+							<%= render partial: "shared/rsvps", locals: { rsvp: current_user.rsvp_for_event(event) }, html: { class: "update" } %>
+						<% end %>
+			<% end %>
+						</li>
+					</div>
+				</div>
     </div>
   </div>
 </div>
-<script type="text/javascript">
-	$(document).on('ready', function() {
-		$('.rsvp').on('click', function(e) {
-			e.preventDefault()
-
-      var user_id = $(.rsvp).data('user-id')
-      var rsvp_id = $(.rsvp_id).data('rsvp-id')
-
-			$.ajax({
-				type: 'POST',
-				url: "users/" + user_id + "/rsvps/" + rsvp_id
-			}).done(function(response){ console.log('hello?', response)
-			})
-		})
-	})
-</script>

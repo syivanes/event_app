@@ -38,15 +38,17 @@
       </form>
       <div id="user_nav">
       <ul class="nav navbar-nav navbar-right">
-			<% if current_user %>
-					<li><%= link_to current_user.username, profile_path %>
-					</li>
-        <li><%= link_to "(sign out)", log_out_path %></li>
-      <% else %>
-        <li><%= link_to "Sign up", sign_up_path %></li>
-        <li>or</li>
+			<% if current_user.guest? %>
+        <li><%= "Make sure to " %></li>
         <li><%= link_to "Log in", log_in_path %></li>
-			<% end %>
+        <li><%= "or" %></li>
+        <li><%= link_to "Sign up", sign_up_path %></li>
+        <li><%= "before your guest session expires" %></li>
+      <% else %>
+				<li><%= link_to current_user.username, profile_path %>
+				</li>
+        <li><%= link_to "(sign out)", log_out_path %></li>
+      <% end %>
       </ul>
       </div>
       </div><!-- /.navbar-collapse -->

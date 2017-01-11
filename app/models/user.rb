@@ -2,28 +2,39 @@ require 'bcrypt'
 class User < ApplicationRecord
   include BCrypt
   attr_accessor :password
-  before_save :encrypt_password
 
-#  geocoded_by :ip_address
-#  after_validation :geocode
+  #geocoded_by :ip_address
+  #after_validation :geocode
 
   has_many :rsvps
   has_many :events, through: :rsvps
 
-  validates_confirmation_of :password
-  validates_presence_of :password, :on => :create
-  validates_presence_of :email
-  validates_uniqueness_of :email
-  validates_presence_of :username
-  validates_uniqueness_of :username
+  before_save :encrypt_password
+  before_save :downcase_password
 
-  def self.authenticate(email, password)
-    user = find_by_email(email)
+  validates :username, presence: true, length: { maximum: 50 }, uniqueness: { case_sensitive: false }, unless: :guest?
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true, length: { maximum: 250 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }, unless: :guest?
+
+  validates_confirmation_of :password, unless: :guest?
+  validates_presence_of :password, :on => :create, unless: :guest?
+
+  def self.authenticate(username_or_email, password)
+      user = find_by_email(username_or_email) || find_by_username(username_or_email)
+
     if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
       user
     else
       nil
     end
+  end
+
+  def self.new_guest
+    new { |u| u.guest = true }
+  end
+
+  def move_to(user)
+    tasks.update_all(user_id: user.id)
   end
 
   def encrypt_password
@@ -37,4 +48,10 @@ class User < ApplicationRecord
     Rsvp.where(:event_id => event.id).first
 	end
 
+  private
+  def downcase_password
+    unless self.guest?
+      self.email = email.downcase
+    end
+  end
 end
